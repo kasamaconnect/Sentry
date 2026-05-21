@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kasama Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="Kasama Connect home">
+          <span class="brand-mark">
+            <img src="assets/kasama.jpg" alt="" />
+          </span>
+          <span>
+            <strong>Kasama</strong>
+            <small>Connect</small>
+            <em>Community intelligence</em>
+          </span>
+        </a>
+
+        <nav class="main-nav" aria-label="Primary">
+          <a class="active" href="#"><span data-icon="home"></span>Home</a>
+          <a href="#"><span data-icon="compass"></span>Explore</a>
+          <a href="#"><span data-icon="bell"></span>Notifications <b>12</b></a>
+          <a href="#"><span data-icon="mail"></span>Messages</a>
+          <a href="#"><span data-icon="bookmark"></span>Saved</a>
+        </nav>
+
+        <section class="panel compact">
+          <div class="section-head">
+            <span>Hubs</span>
+            <button class="icon-button" aria-label="Create hub" title="Create hub">+</button>
+          </div>
+          <div class="hub-list" id="hubList"></div>
+        </section>
+
+        <section class="trust-card">
+          <div>
+            <span>Your trust score</span>
+            <strong>86</strong>
+          </div>
+          <div class="trust-ring" aria-label="Trust score 86 out of 100">
+            <span>86</span>
+          </div>
+          <meter value="86" min="0" max="100">86</meter>
+          <button class="ghost-button">View Breakdown</button>
+        </section>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <label class="search">
+            <span data-icon="search"></span>
+            <input type="search" placeholder="Search hubs, posts, clients, VAs..." />
+            <kbd>/</kbd>
+          </label>
+          <div class="top-actions">
+            <button class="primary-button" id="openComposer">+ Create</button>
+            <button class="icon-button alert" aria-label="Moderation alerts" title="Moderation alerts">8</button>
+            <button class="avatar-button" aria-label="Profile">
+              <span class="avatar"></span>
+            </button>
+          </div>
+        </header>
+
+        <section class="feed-tabs" aria-label="Feed filters">
+          <button class="active" data-feed="for-you">For You</button>
+          <button data-feed="trending">Trending</button>
+          <button data-feed="latest">Latest</button>
+          <button data-feed="following">Following</button>
+          <button data-feed="governance">Governance</button>
+          <button data-feed="verified">Verified Only</button>
+        </section>
+
+        <section class="feed-context panel" id="feedContext">
+          <div>
+            <span>For You</span>
+            <strong>Recommended across your trusted hubs</strong>
+          </div>
+          <button class="ghost-button" id="resetFeed">Reset</button>
+        </section>
+
+        <section class="composer panel">
+          <div class="composer-row">
+            <span class="avatar"></span>
+            <button id="composerPrompt">What's on your mind?</button>
+          </div>
+          <div class="post-types" aria-label="Post types">
+            <button>Text</button>
+            <button>Rate Report</button>
+            <button>Job Post</button>
+            <button>Review</button>
+            <button>Expose</button>
+            <button>Poll</button>
+            <button>Anonymous</button>
+          </div>
+        </section>
+
+        <section class="mod-strip" aria-label="Moderation workflows">
+          <article>
+            <strong>42</strong>
+            <span>Reports waiting</span>
+          </article>
+          <article>
+            <strong>11</strong>
+            <span>Client-only requests</span>
+          </article>
+          <article>
+            <strong>7</strong>
+            <span>Appeals open</span>
+          </article>
+          <article>
+            <strong>128</strong>
+            <span>AutoMod actions</span>
+          </article>
+        </section>
+
+        <section class="feed" id="feed"></section>
+      </main>
+
+      <aside class="rightbar">
+        <section class="profile-card panel">
+          <div class="profile-top">
+            <span class="avatar large"></span>
+            <div>
+              <strong>Digital Nomad</strong>
+              <span>@digitalnomadva</span>
+              <small>Verified VA</small>
+            </div>
+          </div>
+          <div class="stats">
+            <span><strong>156</strong>Posts</span>
+            <span><strong>482</strong>Comments</span>
+            <span><strong>86</strong>Trust</span>
+          </div>
+          <button class="primary-button full">View Profile</button>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <span>Trending Hubs</span>
+          </div>
+          <div class="trend-list">
+            <p><span class="dot red"></span>Rate Transparency <b>+24%</b></p>
+            <p><span class="dot red"></span>Scam Watch <b>+18%</b></p>
+            <p><span class="dot blue"></span>Job Board <b>+16%</b></p>
+            <p><span class="dot green"></span>Client Reviews <b>+12%</b></p>
+            <p><span class="dot gold"></span>Clients Only <b>+9%</b></p>
+          </div>
+        </section>
+
+        <section class="panel poll-card">
+          <div class="section-head">
+            <span>Governance Poll</span>
+            <em>Live</em>
+          </div>
+          <h3>Should client-only posts require verified business documents?</h3>
+          <label>Yes, for safety <span>78%</span></label>
+          <progress value="78" max="100"></progress>
+          <label>No, optional <span>15%</span></label>
+          <progress value="15" max="100"></progress>
+          <label>Depends on claim <span>7%</span></label>
+          <progress value="7" max="100"></progress>
+          <button class="primary-button full">Vote Now</button>
+        </section>
+
+        <section class="panel mod-panel">
+          <div class="section-head">
+            <span>Mod Queue</span>
+            <em>Admin</em>
+          </div>
+          <div id="modQueue"></div>
+        </section>
+      </aside>
+    </div>
+
+    <dialog class="modal" id="composerModal">
+      <form method="dialog">
+        <header>
+          <div>
+            <strong>Create Post</strong>
+            <span>Choose identity, hub, and review settings.</span>
+          </div>
+          <button class="icon-button" value="close" aria-label="Close">x</button>
+        </header>
+        <label>
+          Hub
+          <select>
+            <option>Rate Transparency</option>
+            <option>Clients Only</option>
+            <option>Scam Watch</option>
+            <option>Job Board</option>
+          </select>
+        </label>
+        <label>
+          Identity
+          <select>
+            <option>Verified anonymous</option>
+            <option>Public profile</option>
+            <option>Anonymous to community</option>
+            <option>Client-only identity</option>
+          </select>
+        </label>
+        <label>
+          Title
+          <input value="$3/hr for full FB ads management - is this normal?" />
+        </label>
+        <label>
+          Post
+          <textarea rows="5">Managing five ad accounts, client communication, reporting, scaling, and daily creative notes. Need a fair rate check.</textarea>
+        </label>
+        <div class="checks">
+          <label><input type="checkbox" checked /> Send through AutoMod</label>
+          <label><input type="checkbox" /> Client-only visibility</label>
+          <label><input type="checkbox" checked /> Hide username from members</label>
+        </div>
+        <footer>
+          <button class="ghost-button" value="close">Save Draft</button>
+          <button class="primary-button" value="publish">Publish</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
