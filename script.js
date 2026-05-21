@@ -277,23 +277,56 @@ function renderPostCard(post) {
 }
 
 function getComments(post) {
-  const shared = [
-    ["Verified VA", "This is exactly why I like seeing the scope written out. The tiny hidden tasks always become the whole job.", 42],
-    ["Kasama Mod", "Friendly reminder: keep names private unless evidence is verified. The receipts can be spicy; the process still has to be clean.", 31],
-    ["Anonymous VA", "I have lived this post in three different fonts. Following for the scripts.", 24],
-  ];
+  const title = post.title.toLowerCase();
+  const comments = [];
+  const add = (author, body, votes) => comments.push([author, body, votes]);
 
-  const byHub = {
-    rates: [["Finance VA", "For that workload, I would quote by outcome or at least split strategy, execution, and reporting into separate line items.", 58]],
-    jobs: [["Hiring Coach", "Green flag if they list decision timeline, timezone, and payment schedule before asking for a trial.", 36]],
-    scams: [["Scam Watch Mod", "We found two similar reports. If anyone has the same portal link, send it privately, not in the public thread.", 67]],
-    clients: [["Verified Client", "As a client, I want this checklist too. It saves everyone from awkward 'I thought that was included' moments.", 44]],
-    ai: [["Security Mod", "Please redact client names, emails, API keys, and private documents before using any AI workflow.", 53]],
-    governance: [["Kasama Council", "Vote totals update hourly. Strong arguments on both sides are being summarized for the final rule draft.", 48]],
-    freelancers: [["Senior VA", "The best portfolio proof is boring in the best way: before, after, metric, and what you owned.", 39]],
-  };
+  if (title.includes("$3/hr") || title.includes("rate check") || title.includes("rates by role")) {
+    add("Finance VA", "Question: are you only launching ads, or are you also doing strategy, copy, creative direction, reporting, and client calls? Those should not be priced as one admin task.", 72);
+    add("Media Buyer VA", "For five accounts, I would separate the quote into account management, reporting, and creative coordination. Even if the hourly stays low, the scope needs a ceiling.", 61);
+    add("Anonymous VA", "Answer from experience: the trap is not just the rate. It is when the client says 'quick update' and suddenly you are rebuilding the campaign structure at midnight.", 44);
+    add("Kasama Mod", "Please avoid naming the client unless payment proof and scope screenshots are submitted. Rate context is welcome; accusations need evidence.", 38);
+  } else if (title.includes("commission-only")) {
+    add("Lead Gen VA", "Question to ask first: who owns the lead quality definition? If they can reject every lead after the fact, commission-only is basically unpaid work with extra steps.", 80);
+    add("Sales Ops", "A fair version usually has a base rate plus commission. Pure commission only makes sense when tracking, attribution, and payout dates are written down.", 55);
+    add("Anonymous VA", "I accepted one of these once. The dashboard mysteriously stopped updating right when payouts were due. Never again without a base.", 49);
+  } else if (title.includes("job post") || title.includes("hiring") || title.includes("needed")) {
+    add("Hiring Coach", "Real answer: a good post should include outcomes, weekly hours, timezone overlap, pay range, tools, and who approves work. Without that, applicants are guessing.", 68);
+    add("Verified Client", "As a client, I would rather be forced to write the scope clearly upfront. It saves us from interviewing people who were never a fit.", 46);
+    add("VA Applicant", "Question I always ask: 'What does success look like after 30 days?' If they cannot answer, the role is probably still a cloud.", 39);
+  } else if (title.includes("scam") || title.includes("fake") || title.includes("telegram") || title.includes("portal") || title.includes("trial")) {
+    add("Scam Watch Mod", "If you received the same link or script, send it through the report flow. Do not paste private IDs, emails, or full URLs in public comments.", 91);
+    add("Anonymous VA", "The pattern I noticed: they rush you to Telegram, avoid company email, then ask for documents before giving a contract. That sequence is the warning sign.", 74);
+    add("Verified VA", "Question: did they mention payroll setup before confirming the job? Real clients usually discuss scope and contract first, not ID collection.", 58);
+    add("Kasama Mod", "We are tagging this as evidence pending. Public naming stays locked until at least two independent receipts are reviewed.", 47);
+  } else if (title.includes("review") || title.includes("ratings") || title.includes("evidence checklist")) {
+    add("Trust Team", "A useful review should answer: was pay on time, was scope stable, were approvals clear, and would you work with them again under the same terms?", 64);
+    add("Verified VA", "Balanced reviews help more than angry ones. 'Paid on time but changed scope twice' tells me exactly what to watch for.", 51);
+    add("Client Success VA", "Question: can we add a field for 'response time during blockers'? Slow replies hurt delivery even when the client is nice.", 34);
+  } else if (title.includes("governance") || title.includes("proposal") || title.includes("rule") || title.includes("vote") || title.includes("access requirements")) {
+    add("Kasama Council", "Proposal note: the rule should protect members without punishing small clients who are still learning how to write good job scopes.", 70);
+    add("Verified Client", "I support pay ranges, but maybe let clients choose fixed budget or hourly range. Some legitimate roles are project-based.", 42);
+    add("Anonymous VA", "Please make the rule strict enough that 'competitive pay' does not survive as a complete sentence.", 57);
+    add("Policy Mod", "Current draft: posts without pay range go to review, not deletion. The client gets a prompt to fix missing details.", 49);
+  } else if (title.includes("ai") || title.includes("prompt") || title.includes("automating") || title.includes("summarizing")) {
+    add("AI Ops VA", "The most useful setup I have found is: raw notes, decisions made, blockers, next actions, owner, due date. Anything more becomes report theater.", 53);
+    add("Security Mod", "Reminder: redact client names, private docs, logins, financials, and customer data before using any AI tool.", 66);
+    add("Executive Assistant", "Question: do you tell clients when AI helped draft the report? I disclose it when it touches client-facing writing.", 37);
+  } else if (title.includes("client-only") || title.includes("onboarding") || title.includes("businesses submit") || title.includes("scope dispute")) {
+    add("Verified Client", "This is the kind of gate I would actually trust: not exclusive for status, but restricted because the conversations affect hiring standards.", 62);
+    add("Kasama Mediation", "For disputes, the first useful question is: what was agreed, what changed, who approved the change, and what proof exists?", 58);
+    add("Anonymous VA", "I like that clients get rules too. Too many platforms only teach freelancers how to behave professionally.", 45);
+  } else if (title.includes("portfolio") || title.includes("raised rates") || title.includes("burnout") || title.includes("handoff")) {
+    add("Senior VA", "The strongest proof is boring: before state, what you owned, after state, and a measurable result. Pretty portfolios help, but proof closes.", 63);
+    add("Ops VA", "Question: how do you show confidential work? I use blurred screenshots plus a written process breakdown.", 41);
+    add("Anonymous VA", "On burnout: if every client is urgent, the real problem is your calendar has no borders. Ask me how I learned. Actually, do not.", 52);
+  } else {
+    add("Verified VA", "Question: what would you put in writing before starting this? That usually reveals whether the setup is safe or fuzzy.", 42);
+    add("Kasama Mod", "Good thread. Keep advice specific, avoid doxxing, and use the report button if you have evidence that needs private review.", 31);
+    add("Anonymous VA", "This is the kind of discussion I wish existed before my first remote client. The comments are basically a seatbelt.", 24);
+  }
 
-  return [...(byHub[post.hubKey] || []), ...shared].slice(0, 4);
+  return comments.slice(0, 4);
 }
 
 function renderThreadDetail(post) {
