@@ -152,6 +152,32 @@ let currentFeed = "for-you";
 let currentHub = null;
 let currentView = "home";
 
+function avatarFor(name) {
+  const normalized = name.toLowerCase();
+  if (normalized.includes("digital nomad")) return { type: "photo", className: "digital-nomad", initials: "" };
+  if (normalized.includes("anonymous")) return { type: "anon", className: "anon", initials: "?" };
+  if (normalized.includes("mod") || normalized.includes("trust") || normalized.includes("council") || normalized.includes("sentry")) return { type: "logo", className: "mod", initials: "K" };
+  if (normalized.includes("client") || normalized.includes("business") || normalized.includes("ledger")) return { type: "logo", className: "client", initials: "C" };
+  if (normalized.includes("finance") || normalized.includes("ledger")) return { type: "logo", className: "finance", initials: "$" };
+  if (normalized.includes("ai") || normalized.includes("security")) return { type: "logo", className: "ai", initials: "AI" };
+  if (normalized.includes("growth") || normalized.includes("sales") || normalized.includes("hiring")) return { type: "logo", className: "growth", initials: "G" };
+  if (normalized.includes("va") || normalized.includes("ops") || normalized.includes("assistant") || normalized.includes("freelancer")) return { type: "logo", className: "va", initials: "VA" };
+
+  const initials = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+  return { type: "logo", className: "member", initials: initials || "KC" };
+}
+
+function renderAvatar(name, size = "") {
+  const avatar = avatarFor(name);
+  return `<span class="avatar ${size} ${avatar.className}" aria-hidden="true">${avatar.initials}</span>`;
+}
+
 function buildFeeds(hubKey, index, votes, badges) {
   const feeds = new Set();
   if (index < 2 || votes > 120) feeds.add("for-you");
@@ -251,6 +277,7 @@ function renderPostCard(post) {
     <article class="post-card" data-post-id="${post.id}">
       <div>
         <div class="post-meta">
+          ${renderAvatar(post.author, "small")}
           <span class="pill blue">${post.hub}</span>
           <span>Posted by</span>
           <strong>${post.author}</strong>
@@ -358,8 +385,11 @@ function renderThreadDetail(post) {
 function renderComment(author, body, votes) {
   return `
     <article class="comment-card">
-      <div>
-        <strong>${author}</strong>
+      <div class="comment-head">
+        <div>
+          ${renderAvatar(author, "small")}
+          <strong>${author}</strong>
+        </div>
         <small>${votes} upvotes</small>
       </div>
       <p>${body}</p>
