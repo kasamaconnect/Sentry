@@ -525,6 +525,153 @@ kbd {
   box-shadow: var(--shadow);
 }
 
+.post-card:hover,
+.activity-card:hover {
+  border-color: var(--line-strong);
+}
+
+.activity-card {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(7, 30, 50, 0.9), rgba(4, 18, 31, 0.86));
+}
+
+.activity-card strong {
+  font-size: 15px;
+}
+
+.activity-card p {
+  margin: 0;
+  color: #b8cad9;
+  line-height: 1.45;
+  font-size: 13px;
+}
+
+.activity-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.activity-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.thread-view {
+  display: grid;
+  gap: 14px;
+}
+
+.thread-view > .post-card {
+  cursor: default;
+}
+
+.engagement-panel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reaction-button {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: #cfeeff;
+  background: rgba(45, 169, 255, 0.08);
+}
+
+.reaction-button b {
+  margin-left: 6px;
+  color: var(--green);
+}
+
+.reaction-button.reacted {
+  border-color: rgba(57, 217, 138, 0.42);
+  background: rgba(57, 217, 138, 0.1);
+}
+
+.comment-composer,
+.comment-card,
+.message-detail {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  background: rgba(2, 17, 31, 0.72);
+}
+
+.comment-composer {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-composer textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px;
+  color: white;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.comments-list {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-card {
+  display: grid;
+  gap: 8px;
+}
+
+.comment-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.comment-card small {
+  color: var(--muted);
+}
+
+.comment-card p,
+.message-detail p {
+  margin: 0;
+  color: #b8cad9;
+  line-height: 1.5;
+}
+
+.comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.comment-actions button {
+  border: 0;
+  color: #aac0d3;
+  background: transparent;
+}
+
+.message-detail {
+  display: grid;
+  gap: 10px;
+}
+
+.message-detail h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.message-detail small {
+  color: var(--muted);
+}
+
 .post-meta,
 .post-actions {
   display: flex;
@@ -883,7 +1030,8 @@ kbd {
   }
 
   .mod-strip,
-  .post-card {
+  .post-card,
+  .engagement-panel {
     grid-template-columns: 1fr;
   }
 }
