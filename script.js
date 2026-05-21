@@ -205,8 +205,45 @@ function renderContext(label, description) {
 
 function renderPosts() {
   const feed = document.querySelector("#feed");
+  if (currentHub === "clients") {
+    renderClientGate();
+    return;
+  }
+
   const visiblePosts = getVisiblePosts();
   feed.innerHTML = visiblePosts.map(renderPostCard).join("");
+}
+
+function renderClientGate() {
+  const clientPosts = posts.filter((post) => post.hubKey === "clients");
+  document.querySelector("#feed").innerHTML = `
+    <section class="locked-concept">
+      <div>
+        <span class="pill gold">Client-only gate</span>
+        <h2>Verified client access protects both sides.</h2>
+        <p>This prototype shows how Kasama Sentry can explain restricted spaces without making the product feel secretive. Clients see expectations before entering; VAs see that gated conversations still have accountability.</p>
+        <div class="locked-steps">
+          <span>1. Submit business proof or verified hiring history</span>
+          <span>2. Agree to pay transparency and dispute standards</span>
+          <span>3. Enter with a visible Client Verified badge</span>
+        </div>
+        <div class="activity-actions">
+          <button class="primary-button">Request Verification</button>
+          <button class="ghost-button show-client-preview">Preview unlocked posts</button>
+        </div>
+      </div>
+      <aside class="verification-card">
+        <strong>Access status</strong>
+        <p>Pending verification</p>
+        <span class="pill blue">Docs needed</span>
+        <span class="pill green">Appeals supported</span>
+        <span class="pill gold">Mod-audited</span>
+      </aside>
+    </section>
+    <section class="feed client-preview" hidden>
+      ${clientPosts.map(renderPostCard).join("")}
+    </section>
+  `;
 }
 
 function renderPostCard(post) {
@@ -532,6 +569,16 @@ function setupFeedActions() {
     const openActivity = event.target.closest(".open-activity");
     if (openActivity) {
       renderActivityDetail(openActivity.dataset.activityType, Number(openActivity.dataset.activityIndex));
+      return;
+    }
+
+    const previewClient = event.target.closest(".show-client-preview");
+    if (previewClient) {
+      const preview = document.querySelector(".client-preview");
+      if (preview) {
+        preview.hidden = !preview.hidden;
+        previewClient.textContent = preview.hidden ? "Preview unlocked posts" : "Hide unlocked preview";
+      }
       return;
     }
 
