@@ -343,13 +343,13 @@ function renderThreadDetail(post) {
         <button class="reaction-button">Following <b>${post.comments + 12}</b></button>
         <button class="reaction-button">Send to mods <b>3</b></button>
       </section>
+      <section class="comments-list">
+        ${comments.map(([author, body, votes]) => renderComment(author, body, votes)).join("")}
+      </section>
       <section class="comment-composer">
         <strong>Join the discussion</strong>
         <textarea rows="3" placeholder="Add a thoughtful comment, question, or evidence note..."></textarea>
         <button class="primary-button reply-send">Comment</button>
-      </section>
-      <section class="comments-list">
-        ${comments.map(([author, body, votes]) => renderComment(author, body, votes)).join("")}
       </section>
     </article>
   `;
@@ -364,9 +364,10 @@ function renderComment(author, body, votes) {
       </div>
       <p>${body}</p>
       <div class="comment-actions">
-        <button class="comment-upvote">Up</button>
-        <button>Reply</button>
-        <button>Report</button>
+        <button class="comment-upvote" aria-label="Upvote comment" title="Upvote">▲</button>
+        <button class="comment-dislike" aria-label="Dislike comment" title="Dislike">▼</button>
+        <button class="comment-reply" aria-label="Reply to comment" title="Reply">💬</button>
+        <button class="comment-report" aria-label="Report comment" title="Report">⚑</button>
       </div>
     </article>
   `;
@@ -401,13 +402,13 @@ function renderActivityDetail(type, index) {
           <button class="ghost-button">Archive</button>
         </div>
       </section>
+      <section class="comments-list">
+        ${replies.map(([author, reply, votes]) => renderComment(author, reply, votes)).join("")}
+      </section>
       <section class="comment-composer">
         <strong>${isMessage ? "Reply" : "Add note"}</strong>
         <textarea rows="3" placeholder="${isMessage ? "Write a reply..." : "Add a mod note or follow-up..."}"></textarea>
         <button class="primary-button reply-send">Send</button>
-      </section>
-      <section class="comments-list">
-        ${replies.map(([author, reply, votes]) => renderComment(author, reply, votes)).join("")}
       </section>
     </article>
   `;
@@ -650,8 +651,28 @@ function setupFeedActions() {
       const meta = button.closest(".comment-card").querySelector("small");
       const current = Number(meta.textContent.replace(/\D/g, ""));
       meta.textContent = `${current + 1} upvotes`;
-      button.textContent = "Upvoted";
       button.disabled = true;
+    }
+
+    if (button.classList.contains("comment-dislike")) {
+      button.disabled = true;
+      button.closest(".comment-card").style.opacity = "0.76";
+    }
+
+    if (button.classList.contains("comment-report")) {
+      button.disabled = true;
+      button.closest(".comment-card").querySelector("small").textContent = "Flagged for mod review";
+    }
+
+    if (button.classList.contains("comment-reply")) {
+      const card = button.closest(".comment-card");
+      document.querySelectorAll(".comment-card").forEach((item) => item.classList.remove("reply-target"));
+      card.classList.add("reply-target");
+      const composer = document.querySelector(".comment-composer textarea");
+      if (composer) {
+        composer.value = `Replying to ${card.querySelector("strong").textContent}: `;
+        composer.focus();
+      }
     }
 
     if (button.classList.contains("reply-send")) {
